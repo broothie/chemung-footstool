@@ -11,6 +11,7 @@ def morphology():
     blue_threshold = 50
     object_min_size = 55
     object_connectivity = 2
+    hole_area_threshold = 15
 
     image = skimage.io.imread("wshdchemung.jpg")
 
@@ -19,6 +20,14 @@ def morphology():
         min_size=object_min_size,
         connectivity=object_connectivity,
     )
+
+    output = skimage.morphology.remove_small_holes(
+        output,
+        area_threshold=hole_area_threshold,
+    )
+
+    # output = skimage.filters.gaussian(output, sigma=0.65)
+    # output = skimage.filters.rank.mean(output, skimage.morphology.disk(10))
 
     skimage.io.imsave("output.jpg", np.invert(output))
 
